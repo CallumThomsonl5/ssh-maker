@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 import os
+import sys
+
+def argvs():
+	global port
+	if sys.argv[1] == "-p":
+		port = sys.argv[2]
 
 def firstRun():
 	#Test if config exists
@@ -50,6 +56,8 @@ def keyFileYN():
 keyFileYN()
 
 f = open("./{}".format(name), "w+")
+
+argvs()
 
 f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 f.close()
