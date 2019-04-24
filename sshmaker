@@ -34,24 +34,24 @@ user = input("Enter user: ")
 yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
 
 def keyFileYN():
-        global keyFileN      
+	global keyFileN     
 
-        if yn == "y":
-	        keyFile = input("Enter key file name: ")
-                keyFileN = "-i {}/{}".format(x,keyFile)
-        elif yn == "n":
-	        keyFile = ""
-        else:
-                print("You didnt enter y or n")
-                keyFileYN()
+	if yn == "y":
+			keyFile = input("Enter key file name: ")
+			keyFileN = "-i {}/{}".format(x, keyFile)
+	elif yn == "n":
+			keyFileN = ""
+	else:
+			print("You didnt enter y or n")
+			keyFileYN()
 
 keyFileYN()
 
 f = open("./{}".format(name), "w+")
 
 f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
-
 f.close()
+
 
 perms = 'sudo chmod +x ./{}'.format(name)
 
