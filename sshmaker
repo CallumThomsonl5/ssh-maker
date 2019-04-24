@@ -33,14 +33,23 @@ name = input("Enter name of system: ")
 user = input("Enter user: ")
 yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
 
-if yn == "y":
-	keyFile = input("Enter key file name: ")
-else:
-	keyFile = ""
+def keyFileYN():
+        global leyFileN      
+
+        if yn == "y":
+	        keyFile = input("Enter key file name: ")
+                keyFileN = "-i {}/{}".format(x, keyFile)
+        elif yn == "n":
+	        keyFile = ""
+        else:
+                print("You didnt enter y or n")
+                keyFileYN()
+
+keyFileN()
 
 f = open("./{}".format(name), "w+")
 
-f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" -i {}/{}".format(x, keyFile))
+f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 
 f.close()
 
