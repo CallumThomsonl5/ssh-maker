@@ -4,8 +4,52 @@ import sys
 
 def argvs():
 	global port
-	if sys.argv[1] == "-p":
-		port = sys.argv[2]
+	global name
+	global host
+	global user
+	
+	try:
+		if sys.argv[1] == "-p":
+			port = sys.argv[2]
+		elif sys.argv[1] == "-n":
+			name = sys.argv[2]
+		elif sys.argv[1] == "-h":
+			host = sys.argv[2]
+		elif sys.argv[1] == "-u":
+			user = sys.argv[2]
+		
+		if sys.argv[3] == "-p":
+			port = sys.argv[4]
+		elif sys.argv[3] == "-n":
+			name = sys.argv[4]
+		elif sys.argv[3] == "-h":
+			host = sys.argv[4]
+		elif sys.argv[3] == "-u":
+			user = sys.argv[4]
+		
+		if sys.argv[5] == "-p":
+			port = sys.argv[6]
+		elif sys.argv[5] == "-n":
+			name = sys.argv[6]
+		elif sys.argv[5] == "-h":
+			host = sys.argv[6]
+		elif sys.argv[5] == "-u":
+			user = sys.argv[6]
+		
+		if sys.argv[7] == "-p":
+			port = sys.argv[8]
+		elif sys.argv[7] == "-n":
+			name = sys.argv[8]
+		elif sys.argv[7] == "-h":
+			host = sys.argv[8]
+		elif sys.argv[7] == "-u":
+			user = sys.argv[8]
+
+	except IndexError:
+		print("no args")
+		
+
+	
 
 def firstRun():
 	#Test if config exists
@@ -32,11 +76,20 @@ def readConfig():
 firstRun()
 readConfig()
 
+def questions():
+	global host,port,name,user
 
-host = input("Enter hostname of system: ")
-port = input("Enter port of ssh server: ")
-name = input("Enter name of system: ")
-user = input("Enter user: ")
+	host = input("Enter hostname of system: ")
+	port = input("Enter port of ssh server: ")
+	name = input("Enter name of system: ")
+	user = input("Enter user: ")
+
+argvs()
+
+if host == "" and port == "" and name == "" and user == "":
+	questions()
+else:
+	argvs()
 
 def keyFileYN():
 	global keyFileN 
@@ -56,8 +109,6 @@ def keyFileYN():
 keyFileYN()
 
 f = open("./{}".format(name), "w+")
-
-argvs()
 
 f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 f.close()
