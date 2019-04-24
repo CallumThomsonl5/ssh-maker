@@ -31,19 +31,21 @@ host = input("Enter hostname of system: ")
 port = input("Enter port of ssh server: ")
 name = input("Enter name of system: ")
 user = input("Enter user: ")
-yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
 
 def keyFileYN():
-	global keyFileN     
+	global keyFileN 
+	yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
+
 
 	if yn == "y":
-			keyFile = input("Enter key file name: ")
-			keyFileN = "-i {}/{}".format(x, keyFile)
+		keyFile = input("Enter key file name: ")
+		keyFileN = "-i {}/{}".format(x, keyFile)
 	elif yn == "n":
-			keyFileN = ""
+		keyFileN = ""
 	else:
-			print("You didnt enter y or n")
-			keyFileYN()
+		print("You didn't enter y or n")
+		keyFileYN()
+
 
 keyFileYN()
 
@@ -55,4 +57,7 @@ f.close()
 
 perms = 'sudo chmod +x ./{}'.format(name)
 
+print("sudo is needed to change perms of file to make executable.")
 os.system(perms)
+
+print("Bash script {} created.".format(name))
