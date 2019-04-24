@@ -34,18 +34,18 @@ user = input("Enter user: ")
 yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
 
 def keyFileYN():
-        global leyFileN      
+        global keyFileN      
 
         if yn == "y":
 	        keyFile = input("Enter key file name: ")
-                keyFileN = "-i {}/{}".format(x, keyFile)
+                keyFileN = "-i {}/{}".format(x,keyFile)
         elif yn == "n":
 	        keyFile = ""
         else:
                 print("You didnt enter y or n")
                 keyFileYN()
 
-keyFileN()
+keyFileYN()
 
 f = open("./{}".format(name), "w+")
 
