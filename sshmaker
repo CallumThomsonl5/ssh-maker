@@ -2,31 +2,29 @@
 import os
 
 def firstRun():
+	#Test if config exists
 	try:
 		configFile = open("./.sshmaker-config", "r")
 	except FileNotFoundError:
+		#If it doesn't, create one and ask for path to ssh key folder
 		keyFolder = input("Enter path to key folder e.g: /home/user/ssh_keys: ")
 		
 		configFile = open("./.sshmaker-config", "w+")
-		configFile.write("{}\n".format(keyFolder))
+		configFile.write("{}".format(keyFolder))
 	
 	configFile.close()
 
-firstRun()
-
 def readConfig():
 	configFile = open("./.sshmaker-config", "r")
+	configFileRead = configFile.read()
 
-	print(configFile)
+	global x
+	x = configFileRead
 
 	configFile.close()
 
+firstRun()
 readConfig()
-
-
-
-
-
 
 
 host = input("Enter hostname of system: ")
@@ -42,7 +40,7 @@ else:
 
 f = open("./{}".format(name), "w+")
 
-f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" -i ~/ssh/{}".format(keyFile))
+f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" -i {}/{}".format(x, keyFile))
 
 f.close()
 
