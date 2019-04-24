@@ -2,13 +2,10 @@
 import os
 import sys
 
-def argvs():
-	global port
-	global name
-	global host
-	global user
-	
+def argvs()
+        global name, port, user, host	
 	try:
+
 		if sys.argv[1] == "-p":
 			port = sys.argv[2]
 		elif sys.argv[1] == "-n":
