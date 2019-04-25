@@ -83,10 +83,8 @@ def questions():
 
 argvs()
 
-if host == "" and port == "" and name == "" and user == "":
+if host == "" or port == "" or name == "" or user == "":
 	questions()
-else:
-	argvs()
 
 def keyFileYN():
 	global keyFileN 
