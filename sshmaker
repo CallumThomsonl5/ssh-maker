@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 import os
 
+os.system('echo $USER')
+
 def firstRun():
 	#Test if config exists
 	try:
