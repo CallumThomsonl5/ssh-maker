@@ -4,18 +4,18 @@ import os
 def firstRun():
 	#Test if config exists
 	try:
-		configFile = open("./.sshmaker-config", "r")
+		configFile = open("/home/callum/.sshmaker-config", "r")
 	except FileNotFoundError:
 		#If it doesn't, create one and ask for path to ssh key folder
 		keyFolder = input("Enter path to key folder e.g: /home/user/ssh_keys: ")
 		
-		configFile = open("./.sshmaker-config", "w+")
+		configFile = open("/home/callum/.sshmaker-config", "w+")
 		configFile.write("{}".format(keyFolder))
 	
 	configFile.close()
 
 def readConfig():
-	configFile = open("./.sshmaker-config", "r")
+	configFile = open("/home/callum/.sshmaker-config", "r")
 	configFileRead = configFile.read()
 
 	global x
@@ -49,13 +49,13 @@ def keyFileYN():
 
 keyFileYN()
 
-f = open("./{}".format(name), "w+")
+f = open("/home/callum/{}".format(name), "w+")
 
 f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 f.close()
 
 
-perms = 'sudo chmod +x ./{}'.format(name)
+perms = 'sudo chmod +x /home/callum/{}'.format(name)
 
 print("sudo is needed to change perms of file to make executable.")
 os.system(perms)
