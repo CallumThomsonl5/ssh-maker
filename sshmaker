@@ -1,7 +1,9 @@
 #!/usr/bin/python3
 import os
 
-os.system('echo $USER')
+def getUser():
+	cmd = "echo $USER"
+	return os.system(cmd)
 
 def firstRun():
 	#Test if config exists
