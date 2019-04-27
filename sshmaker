@@ -33,11 +33,13 @@ def readConfig():
 firstRun()
 readConfig()
 
+def questions():
+	global host,port,name,user
 
-host = input("Enter hostname of system: ")
-port = input("Enter port of ssh server: ")
-name = input("Enter name of system: ")
-user = input("Enter user: ")
+	host = input("Enter hostname of system: ")
+	port = input("Enter port of ssh server: ")
+	name = input("Enter name of system: ")
+	user = input("Enter user: ")
 
 def keyFileYN():
 	global keyFileN 
@@ -64,7 +66,7 @@ f.close()
 
 perms = 'sudo chmod +x {}/{}'.format(getUser, name)
 
-print("sudo is needed to change perms of file to make executable.")
+print("\nSudo is needed to change perms of file to make executable.\n")
 os.system(perms)
 
 print("Bash script {} created.".format(name))
