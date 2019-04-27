@@ -1,25 +1,28 @@
 #!/usr/bin/python3
 import os
+import subprocess
 
-def getUser():
-	cmd = "echo $USER"
-	return os.system(cmd)
+def getHomeDir():
+	homedir = os.environ['HOME']
+	return homedir
+
+getUser = getHomeDir()
 
 def firstRun():
 	#Test if config exists
 	try:
-		configFile = open("/home/callum/.sshmaker-config", "r")
+		configFile = open("{}/.sshmaker-config".format(getUser), "r")
 	except FileNotFoundError:
 		#If it doesn't, create one and ask for path to ssh key folder
-		keyFolder = input("Enter path to key folder e.g: /home/user/ssh_keys: ")
+		keyFolder = input("Enter path to key folder (must be in home dir): ")
 		
-		configFile = open("/home/callum/.sshmaker-config", "w+")
+		configFile = open("{}/.sshmaker-config".format(getUser), "w+")
 		configFile.write("{}".format(keyFolder))
 	
 	configFile.close()
 
 def readConfig():
-	configFile = open("/home/callum/.sshmaker-config", "r")
+	configFile = open("{}/.sshmaker-config".format(getUser), "r")
 	configFileRead = configFile.read()
 
 	global x
@@ -53,13 +56,13 @@ def keyFileYN():
 
 keyFileYN()
 
-f = open("/home/callum/{}".format(name), "w+")
+f = open("{}/{}".format(getUser, name), "w+")
 
 f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 f.close()
 
 
-perms = 'sudo chmod +x /home/callum/{}'.format(name)
+perms = 'sudo chmod +x {}/{}'.format(getUser, name)
 
 print("sudo is needed to change perms of file to make executable.")
 os.system(perms)
