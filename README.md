@@ -1,5 +1,6 @@
 # ssh-maker
 generates bash scripts for ssh.
+**This is for lazy people or people who can't remember the ips to their servers :P**
 
 This program will only run on linux.  
 When entering key folder path, don't put / at end of path.  
