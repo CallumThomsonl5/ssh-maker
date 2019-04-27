@@ -1,8 +1,9 @@
 # ssh-maker
 generates bash scripts for ssh.
 
-# Note
-This program will only run on linux.
-When entering key folder path, don't put / at end of path.
-Don't have the program in a dir in which you need perms to write as it makes a config file called .sshmaker-config. 
-After the program finishes there should be a file in the dir in which the program is located with the name that you put in when asked for the server name, to connect do ./{name}.
+This program will only run on linux.  
+When entering key folder path, don't put / at end of path.  
+Creates a file called .sshmaker-config  
+When the program is finished a file is created called ./{name} in your home dir.  
+Run it by typing ./{name} (You probably already knew that), the file has already been given perms to execute.  
+Thankyou for using sshmaker :)
