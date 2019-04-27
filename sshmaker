@@ -1,72 +1,79 @@
 #!/usr/bin/python3
 import os
 import subprocess
+from sys import platform
 
-def getHomeDir():
-	homedir = os.environ['HOME']
-	return homedir
+def app():
+	def getHomeDir():
+		homedir = os.environ['HOME']
+		return homedir
 
-getUser = getHomeDir()
+	getUser = getHomeDir()
 
-def firstRun():
-	#Test if config exists
-	try:
-		configFile = open("{}/.sshmaker-config".format(getUser), "r")
-	except FileNotFoundError:
-		#If it doesn't, create one and ask for path to ssh key folder
-		keyFolder = input("Enter path to key folder (must be in home dir): ")
+	def firstRun():
+		#Test if config exists
+		try:
+			configFile = open("{}/.sshmaker-config".format(getUser), "r")
+		except FileNotFoundError:
+			#If it doesn't, create one and ask for path to ssh key folder
+			keyFolder = input("Enter path to key folder (must be in home dir): ")
+			
+			configFile = open("{}/.sshmaker-config".format(getUser), "w+")
+			configFile.write("{}".format(keyFolder))
 		
-		configFile = open("{}/.sshmaker-config".format(getUser), "w+")
-		configFile.write("{}".format(keyFolder))
-	
-	configFile.close()
+		configFile.close()
 
-def readConfig():
-	configFile = open("{}/.sshmaker-config".format(getUser), "r")
-	configFileRead = configFile.read()
+	def readConfig():
+		configFile = open("{}/.sshmaker-config".format(getUser), "r")
+		configFileRead = configFile.read()
 
-	global x
-	x = configFileRead
+		global x
+		x = configFileRead
 
-	configFile.close()
+		configFile.close()
 
-firstRun()
-readConfig()
+	firstRun()
+	readConfig()
 
-def questions():
-	global host,port,name,user
+	def questions():
+		global host,port,name,user
 
-	host = input("Enter hostname of system: ")
-	port = input("Enter port of ssh server: ")
-	name = input("Enter name of system: ")
-	user = input("Enter user: ")
+		host = input("Enter hostname of system: ")
+		port = input("Enter port of ssh server: ")
+		name = input("Enter name of system: ")
+		user = input("Enter user: ")
 
-def keyFileYN():
-	global keyFileN 
-	yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
+	def keyFileYN():
+		global keyFileN 
+		yn = input("Would you like to connect with a key file? [Y] [N]: ").lower()
 
 
-	if yn == "y":
-		keyFile = input("Enter key file name: ")
-		keyFileN = "-i {}/{}".format(x, keyFile)
-	elif yn == "n":
-		keyFileN = ""
-	else:
-		print("You didn't enter y or n")
-		keyFileYN()
+		if yn == "y":
+			keyFile = input("Enter key file name: ")
+			keyFileN = "-i {}/{}".format(x, keyFile)
+		elif yn == "n":
+			keyFileN = ""
+		else:
+			print("You didn't enter y or n")
+			keyFileYN()
 
-questions()
-keyFileYN()
+	questions()
+	keyFileYN()
 
-f = open("{}/{}".format(getUser, name), "w+")
+	f = open("{}/{}".format(getUser, name), "w+")
 
-f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
-f.close()
+	f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
+	f.close()
 
 
-perms = 'sudo chmod +x {}/{}'.format(getUser, name)
+	perms = 'sudo chmod +x {}/{}'.format(getUser, name)
 
-print("\nSudo is needed to change perms of file to make executable.\n")
-os.system(perms)
+	print("\nSudo is needed to change perms of file to make executable.\n")
+	os.system(perms)
 
-print("Bash script {} created.".format(name))
+	print("Bash script {} created.".format(name))
+
+if platform == "linux" or platform == "linux2":
+	app()
+else:
+	print("This program only works on linux but can be easily modified to work on other OSs")
