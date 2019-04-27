@@ -55,7 +55,7 @@ def keyFileYN():
 		print("You didn't enter y or n")
 		keyFileYN()
 
-
+questions()
 keyFileYN()
 
 f = open("{}/{}".format(getUser, name), "w+")
