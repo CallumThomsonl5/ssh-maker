@@ -4,6 +4,13 @@ import subprocess
 from sys import platform
 
 def app():
+	confTemplate = """
+config = {
+	'KeyFolderName':''
+}
+"""
+	
+	
 	def getHomeDir():
 		homedir = os.environ['HOME']
 		return homedir
@@ -12,15 +19,22 @@ def app():
 
 	def firstRun():
 		try:
-			testConf =  open('{}/.sshmaker-config'.format(getDir), 'r')
+			testConf =  open('{}/.sshmaker-config.py'.format(getDir), 'r')
 		except FileNotFoundError:
-			input('enter ')
-			
-			writeConf = open('{}/.sshmaker-config'.format(getDir), 'r')
-			writeConf.write('{}'.format())
+			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
+			if keyFolder == "":
+				keyFolder = "ssh_keys"
+			writeConf = open('{}/.sshmaker-config.py'.format(getDir), 'w+')
+			writeConf.write('{}'.format(confTemplate))
 
+		try:
+			testConf.close()
+		except:
+			pass
+		writeConf.close()
+		
 	def readConfig():
-		configFile = open("{}/.sshmaker-config".format(getDir), "r")
+		configFile = open("{}/.sshmaker-config.py".format(getDir), "r")
 		configFileRead = configFile.read()
 
 		global x
