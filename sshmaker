@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import os
 import subprocess
-from sys import platform
+import sys
 
 def app():
 	confTemplate = """
@@ -19,19 +19,13 @@ config = {
 
 	def firstRun():
 		try:
-			testConf =  open('{}/.sshmaker-config.py'.format(getDir), 'r')
-		except FileNotFoundError:
-			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
-			if keyFolder == "":
-				keyFolder = "ssh_keys"
-			writeConf = open('{}/.sshmaker-config.py'.format(getDir), 'w+')
-			writeConf.write('{}'.format(confTemplate))
-
-		try:
-			testConf.close()
-		except:
-			pass
-		writeConf.close()
+			os.mkdir("/etc/sshmaker")
+			confFile = open('/etc/sshmaker/config.py', 'w+')
+			confFile.write(confTemplate)
+			sys.path.insert(0, "/dev/sshmaker")
+			import config
+		except FileExistsError:
+			print("Reading config /etc/sshmaker")
 		
 	def readConfig():
 		configFile = open("{}/.sshmaker-config.py".format(getDir), "r")
@@ -84,7 +78,7 @@ config = {
 	print("Bash script {} created.".format(name))
 
 
-if platform == "linux" or platform == "linux2":
+if sys.platform == "linux" or sys.platform == "linux2":
 	if os.getuid() == "0" or os.getuid() == 0:
 		app()
 	else:
