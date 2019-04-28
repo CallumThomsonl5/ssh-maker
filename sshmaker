@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 import os
 import subprocess
-import sys
+import json
+from sys import platform
 
 def app():
-	confTemplate = """
-config = {
-	'KeyFolderName':''
-}
-"""
+	confTemplate = {
+		'KeyFolderName': ''
+	}
+	
 	
 	
 	def getHomeDir():
@@ -20,13 +20,12 @@ config = {
 	def firstRun():
 		try:
 			os.mkdir("/etc/sshmaker")
-			confFile = open('/etc/sshmaker/config.py', 'w+')
-			confFile.write(confTemplate)
-			sys.path.insert(0, "/dev/sshmaker")
-			import config
-			config.config['KeyFolderName'] = '{}'.format()
+			confFile = open('/etc/sshmaker/config.json', 'w+')
+			
+			
+			confFile.write(json.dumps(confTemplate))
 		except FileExistsError:
-			print("Reading config /etc/sshmaker")
+			print("Reading config /etc/sshmaker/config.json")
 		
 	def readConfig():
 		configFile = open("{}/.sshmaker-config.py".format(getDir), "r")
@@ -79,7 +78,7 @@ config = {
 	print("Bash script {} created.".format(name))
 
 
-if sys.platform == "linux" or sys.platform == "linux2":
+if platform == "linux" or platform == "linux2":
 	if os.getuid() == "0" or os.getuid() == 0:
 		app()
 	else:
