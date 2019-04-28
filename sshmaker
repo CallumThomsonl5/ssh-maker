@@ -15,7 +15,7 @@ def app():
 		try:
 			configFile = open("{}/.sshmaker-config".format(getUser), "r")
 		except:
-			#If it doesn't, create one and ask for path to ssh key folder
+			#If it doesn't, create one and ask for folder
 			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
 			if keyFolder == "":
 				keyFolder = "ssh_keys"
