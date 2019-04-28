@@ -16,10 +16,12 @@ def app():
 			configFile = open("{}/.sshmaker-config".format(getUser), "r")
 		except FileNotFoundError:
 			#If it doesn't, create one and ask for path to ssh key folder
-			keyFolder = input("Enter path to key folder (must be in home dir): ")
+			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
+			if keyFolder == "":
+				keyFolder = "ssh_keys"
 			
 			configFile = open("{}/.sshmaker-config".format(getUser), "w+")
-			configFile.write("{}".format(keyFolder))
+			configFile.write("{}/{}".format(getUser(),keyFolder))
 		
 		configFile.close()
 
@@ -73,7 +75,14 @@ def app():
 
 	print("Bash script {} created.".format(name))
 
+
 if platform == "linux" or platform == "linux2":
-	app()
+	if os.getuid() == "0" or os.getuid() == 0:
+		app()
+	else:
+		print("Program must be run as sudo")
 else:
 	print("This program only works on linux but can be easily modified to work on other OSs")
+
+		
+
