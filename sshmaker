@@ -24,6 +24,7 @@ config = {
 			confFile.write(confTemplate)
 			sys.path.insert(0, "/dev/sshmaker")
 			import config
+			config.config['KeyFolderName'] = '{}'.format()
 		except FileExistsError:
 			print("Reading config /etc/sshmaker")
 		
