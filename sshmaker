@@ -14,14 +14,14 @@ def app():
 		#Test if config exists
 		try:
 			configFile = open("{}/.sshmaker-config".format(getUser), "r")
-		except FileNotFoundError:
+		except:
 			#If it doesn't, create one and ask for path to ssh key folder
 			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
 			if keyFolder == "":
 				keyFolder = "ssh_keys"
 			
 			configFile = open("{}/.sshmaker-config".format(getUser), "w+")
-			configFile.write("{}/{}".format(getUser(),keyFolder))
+			configFile.write("{}/{}".format(getUser ,keyFolder))
 		
 		configFile.close()
 
