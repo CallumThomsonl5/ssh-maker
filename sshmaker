@@ -8,25 +8,16 @@ def app():
 		homedir = os.environ['HOME']
 		return homedir
 
-	getUser = getHomeDir()
+	getDir = getHomeDir()
 
 	def firstRun():
-		#Test if config exists
 		try:
-			configFile = open("{}/.sshmaker-config".format(getUser), "r")
-		except:
-			#If it doesn't, create one and ask for folder
-			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
-			if keyFolder == "":
-				keyFolder = "ssh_keys"
-			
-			configFile = open("{}/.sshmaker-config".format(getUser), "w+")
-			configFile.write("{}/{}".format(getUser ,keyFolder))
-		
-		configFile.close()
+			testConf =  open('{}/.sshmaker-config'.format(getDir), 'r')
+		except FileNotFoundError:
+			writeConf = open('{}/.sshmaker-config'.format(getDir), 'r')
 
 	def readConfig():
-		configFile = open("{}/.sshmaker-config".format(getUser), "r")
+		configFile = open("{}/.sshmaker-config".format(getDir), "r")
 		configFileRead = configFile.read()
 
 		global x
@@ -62,13 +53,13 @@ def app():
 	questions()
 	keyFileYN()
 
-	f = open("{}/{}".format(getUser, name), "w+")
+	f = open("{}/{}".format(getDir, name), "w+")
 
 	f.write("#!/bin/bash\nssh "+user+"@"+host+" -p "+port+" {}".format(keyFileN))
 	f.close()
 
 
-	perms = 'sudo chmod +x {}/{}'.format(getUser, name)
+	perms = 'sudo chmod +x {}/{}'.format(getDir, name)
 
 	print("\nSudo is needed to change perms of file to make executable.\n")
 	os.system(perms)
@@ -83,6 +74,3 @@ if platform == "linux" or platform == "linux2":
 		print("Program must be run as sudo")
 else:
 	print("This program only works on linux but can be easily modified to work on other OSs")
-
-		
-
