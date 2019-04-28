@@ -21,20 +21,19 @@ def app():
 		try:
 			os.mkdir("/etc/sshmaker")
 			confFile = open('/etc/sshmaker/config.json', 'w+')
-			
-			
+			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
+			confTemplate['KeyFolderName'] = '{}{}{}'.format(getDir,'/', keyFolder)
 			confFile.write(json.dumps(confTemplate))
+			confFile.close()
 		except FileExistsError:
 			print("Reading config /etc/sshmaker/config.json")
 		
 	def readConfig():
-		configFile = open("{}/.sshmaker-config.py".format(getDir), "r")
-		configFileRead = configFile.read()
-
-		global x
-		x = configFileRead
-
-		configFile.close()
+		f = open('/etc/sshmaker/config.json', 'r')
+		conf = json.load(f)
+		global keyFolder
+		keyFolder = conf['KeyFolderName']
+		f.close()
 
 	firstRun()
 	readConfig()
@@ -54,7 +53,7 @@ def app():
 
 		if yn == "y":
 			keyFile = input("Enter key file name: ")
-			keyFileN = "-i {}/{}".format(x, keyFile)
+			keyFileN = "-i {}/{}".format(keyFolder, keyFile)
 		elif yn == "n":
 			keyFileN = ""
 		else:
