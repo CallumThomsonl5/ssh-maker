@@ -21,8 +21,14 @@ def app():
 		try:
 			os.mkdir("/etc/sshmaker")
 			confFile = open('/etc/sshmaker/config.json', 'w+')
-			keyFolder = input("Enter key folder name (in home dir, default ssh_keys): ")
-			confTemplate['KeyFolderName'] = '{}{}{}'.format(getDir,'/', keyFolder)
+			keyFolder = input("Enter path to key folder (Default /home/user/ssh_keys): ")
+			if keyFolder == "":
+				keyFolder = "{}/ssh_keys".format(getDir)
+			if keyFolder[-1:] == "/":
+				keyFolder = keyFolder[:-1]
+			if keyFolder[1:] == "/":
+				keyFolder = keyFolder[:1]
+			confTemplate['KeyFolderName'] = '{}'.format(keyFolder)
 			confFile.write(json.dumps(confTemplate))
 			confFile.close()
 		except FileExistsError:
@@ -53,6 +59,12 @@ def app():
 
 		if yn == "y":
 			keyFile = input("Enter key file name: ")
+			#Remove / at start
+			if keyFile[1:] == "/":
+				keyFile = keyFile[:1]
+			elif keyFile[1:] == "./":
+				keyFile = keyFile[:2]
+				
 			keyFileN = "-i {}/{}".format(keyFolder, keyFile)
 		elif yn == "n":
 			keyFileN = ""
