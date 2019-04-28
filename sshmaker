@@ -14,7 +14,10 @@ def app():
 		try:
 			testConf =  open('{}/.sshmaker-config'.format(getDir), 'r')
 		except FileNotFoundError:
+			input('enter ')
+			
 			writeConf = open('{}/.sshmaker-config'.format(getDir), 'r')
+			writeConf.write('{}'.format())
 
 	def readConfig():
 		configFile = open("{}/.sshmaker-config".format(getDir), "r")
